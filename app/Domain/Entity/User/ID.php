@@ -4,7 +4,7 @@ namespace App\Domain\Entity\User;
 
 use App\Domain\Exception\UserException;
 
-final readonly class UserID
+final readonly class ID
 {
     /**
      * @throws UserException

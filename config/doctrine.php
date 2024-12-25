@@ -123,7 +123,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'custom_types' => [
-        'user_id' => \App\Infrastructure\Cast\Doctrine\UserIDType::class,
+        'user_id' => \App\Infrastructure\Cast\Doctrine\User\UserIDType::class,
+        'board_id' => \App\Infrastructure\Cast\Doctrine\Board\BoardIDType::class,
+        'board_name' => \App\Infrastructure\Cast\Doctrine\Board\BoardNameType::class,
+        'board_description' => \App\Infrastructure\Cast\Doctrine\Board\BoardDescriptionType::class,
     ],
     /*
     |--------------------------------------------------------------------------

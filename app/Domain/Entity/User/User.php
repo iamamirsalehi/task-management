@@ -13,9 +13,9 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private UserID $id;
+    private ID $id;
 
-    public function getID(): UserID
+    public function getID(): ID
     {
         return $this->id;
     }
