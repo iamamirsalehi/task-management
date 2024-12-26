@@ -4,8 +4,12 @@ namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Command\AddNewBoardCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
+use App\Application\Query\GetAllUserBoardsQuery;
+use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\CommandBus\SymfonyCommandBus;
+use App\Infrastructure\QueryBus\QueryBus;
+use App\Infrastructure\QueryBus\SymfonyQueryBus;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
@@ -32,6 +36,10 @@ class CommandBusServiceProvider extends ServiceProvider
         $this->app->singleton(CommandBus::class, function ($app) {
             return new SymfonyCommandBus($app->make(MessageBusInterface::class));
         });
+
+        $this->app->singleton(QueryBus::class, function ($app) {
+            return new SymfonyQueryBus($app->make(MessageBusInterface::class));
+        });
     }
 
     public function boot(): void
@@ -43,8 +51,11 @@ class CommandBusServiceProvider extends ServiceProvider
     {
         return [
             AddNewBoardCommand::class => [
-                new HandlerDescriptor($app->make(AddNewBoardCommandHandler::class))
-            ]
+                new HandlerDescriptor($app->make(AddNewBoardCommandHandler::class)),
+            ],
+            GetAllUserBoardsQuery::class => [
+                new HandlerDescriptor($app->make(GetAllUserBoardsQueryHandler::class)),
+            ],
         ];
     }
 }

@@ -19,7 +19,7 @@ class Board
     private Name $name;
 
     #[ORM\Column(name: 'description', type: 'board_description', length: 200, nullable: true)]
-    private Description $description;
+    private ?Description $description = null;
 
     #[ORM\Column(name: 'user_id', type: 'user_id')]
     private UserID $userID;
@@ -51,7 +51,7 @@ class Board
         $this->description = $description;
     }
 
-    public function getDescription(): Description
+    public function getDescription(): ?Description
     {
         return $this->description;
     }

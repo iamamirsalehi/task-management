@@ -4,7 +4,9 @@ namespace App\Infrastructure\Persistence\Repository\Doctrine;
 
 use App\Domain\Entity\Board\Board;
 use App\Domain\Entity\Board\Name;
+use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Persistence\Repository\BoardRepository;
+use Illuminate\Support\Collection;
 
 class DoctrineBoardRepository extends DoctrineBaseRepository implements BoardRepository
 {
@@ -23,5 +25,18 @@ class DoctrineBoardRepository extends DoctrineBaseRepository implements BoardRep
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getByUserID(UserID $id): Collection
+    {
+        $boards = $this->entityManager->createQueryBuilder()
+            ->select('b')
+            ->from(Board::class, 'b')
+            ->where('b.userID = :user_id')
+            ->setParameter('user_id', $id)
+            ->getQuery()
+            ->getResult();
+
+        return new Collection($boards);
     }
 }

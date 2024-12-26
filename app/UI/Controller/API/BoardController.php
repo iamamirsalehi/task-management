@@ -4,18 +4,25 @@ namespace App\UI\Controller\API;
 
 
 use App\Application\Command\AddNewBoardCommand;
+use App\Application\Query\GetAllUserBoardsQuery;
 use App\Domain\Entity\Board\Description;
 use App\Domain\Entity\Board\Name;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
+use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\AddNewBoardRequest;
+use App\UI\Resource\API\BoardResource;
 use App\UI\Response\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 final readonly class BoardController
 {
-    public function __construct(private CommandBus $commandBus)
+    public function __construct(
+        private CommandBus $commandBus,
+        private QueryBus   $queryBus,
+    )
     {
     }
 
@@ -37,5 +44,18 @@ final readonly class BoardController
         }
 
         return JsonResponse::created('added');
+    }
+
+    public function getUserBoards(Request $request, int $userID): Response
+    {
+        try {
+            $userID = new UserID($userID);
+
+            $boards = $this->queryBus->handle((new GetAllUserBoardsQuery($userID)));
+        } catch (BusinessException $exception) {
+            return JsonResponse::unprocessableEntity($exception->getMessage());
+        }
+
+        return JsonResponse::ok('', BoardResource::collection($boards)->toArray($request));
     }
 }
