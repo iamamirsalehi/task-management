@@ -7,7 +7,9 @@ use App\Application\Command\AddNewTaskCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
 use App\Application\CommandHandler\AddNewTaskCommandHandler;
 use App\Application\Query\GetAllUserBoardsQuery;
+use App\Application\Query\GetBoardTasksQuery;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
+use App\Application\QueryHandler\GetBoardTasksQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\CommandBus\SymfonyCommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
@@ -58,6 +60,9 @@ class CommandBusServiceProvider extends ServiceProvider
             ],
             GetAllUserBoardsQuery::class => [
                 new HandlerDescriptor($app->make(GetAllUserBoardsQueryHandler::class)),
+            ],
+            GetBoardTasksQuery::class => [
+                new HandlerDescriptor($app->make(GetBoardTasksQueryHandler::class)),
             ],
         ];
     }

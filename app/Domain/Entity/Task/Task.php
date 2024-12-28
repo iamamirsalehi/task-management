@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity\Task;
 
+use App\Domain\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Entity\Board\ID as BoardID;
@@ -28,6 +29,8 @@ class Task
     #[ORM\Column(name: 'board_id', type: 'board_id')]
     private BoardID $boardID;
 
+//    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tasks')]
+//    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\Column(name: 'user_id', type: 'user_id')]
     private UserID $userID;
 

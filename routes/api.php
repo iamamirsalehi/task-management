@@ -7,8 +7,9 @@ use App\UI\Controller\API\BoardController;
 Route::prefix('board')->group(function () {
     Route::post('', [BoardController::class, 'add']);
     Route::get('{user_id}', [BoardController::class, 'getUserBoards']);
+    Route::get('{id}/tasks', [BoardController::class, 'getTasks']);
 });
 
 Route::prefix('task')->group(function () {
-   Route::post('', [TaskController::class, 'add']);
+    Route::post('', [TaskController::class, 'add']);
 });

@@ -5,14 +5,17 @@ namespace App\UI\Controller\API;
 
 use App\Application\Command\AddNewBoardCommand;
 use App\Application\Query\GetAllUserBoardsQuery;
+use App\Application\Query\GetBoardTasksQuery;
 use App\Domain\Entity\Board\Description;
 use App\Domain\Entity\Board\Name;
 use App\Domain\Entity\User\ID as UserID;
+use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\API\AddNewBoardRequest;
 use App\UI\Resource\API\BoardResource;
+use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -57,5 +60,19 @@ final readonly class BoardController
         }
 
         return JsonResponse::ok('', BoardResource::collection($boards)->toArray($request));
+    }
+
+    public function getTasks(Request $request, $id): Response
+    {
+        try {
+            $userID = new UserID($request->get('user_id'));
+            $boardID = new BoardID($id);
+
+            $tasks = $this->queryBus->handle(new GetBoardTasksQuery($boardID, $userID));
+        } catch (BusinessException $exception) {
+            return JsonResponse::unprocessableEntity($exception->getMessage());
+        }
+
+        return JsonResponse::ok('', TaskResource::collection($tasks)->toArray($request));
     }
 }

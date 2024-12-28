@@ -2,8 +2,11 @@
 
 namespace App\Infrastructure\Persistence\Repository\Doctrine;
 
+use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Entity\Task\Task;
+use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Persistence\Repository\TaskRepository;
+use Illuminate\Support\Collection;
 
 class DoctrineTaskRepository extends DoctrineBaseRepository implements TaskRepository
 {
@@ -11,5 +14,19 @@ class DoctrineTaskRepository extends DoctrineBaseRepository implements TaskRepos
     {
         $this->entityManager->persist($task);
         $this->entityManager->flush();
+    }
+
+    public function getAllByUserIDAndBoardID(UserID $userID, BoardID $boardID): Collection
+    {
+        $tasks = $this->entityManager->createQueryBuilder()
+            ->select('t')
+            ->from(Task::class, 't')
+            ->where('t.userID = :user_id AND t.boardID = :board_id')
+            ->setParameter('user_id', $userID)
+            ->setParameter('board_id', $boardID)
+            ->getQuery()
+            ->getResult();
+
+        return new Collection($tasks);
     }
 }
