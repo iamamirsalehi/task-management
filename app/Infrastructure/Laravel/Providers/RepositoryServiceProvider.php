@@ -3,8 +3,10 @@
 namespace App\Infrastructure\Laravel\Providers;
 
 use App\Domain\Persistence\Repository\BoardRepository;
+use App\Domain\Persistence\Repository\TaskRepository;
 use App\Domain\Persistence\Repository\UserRepository;
 use App\Infrastructure\Persistence\Repository\Doctrine\DoctrineBoardRepository;
+use App\Infrastructure\Persistence\Repository\Doctrine\DoctrineTaskRepository;
 use App\Infrastructure\Persistence\Repository\Doctrine\DoctrineUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\ServiceProvider;
@@ -19,7 +21,11 @@ class RepositoryServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BoardRepository::class, function ($app) {
-            return new DoctrineBoardRepository($app->make(EntityManager::class));
+            return new DoctrineBoardRepository($app->make(EntityManagerInterface::class));
+        });
+
+        $this->app->bind(TaskRepository::class, function ($app) {
+            return new DoctrineTaskRepository($app->make(EntityManagerInterface::class));
         });
     }
 

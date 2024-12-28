@@ -3,7 +3,9 @@
 namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Command\AddNewBoardCommand;
+use App\Application\Command\AddNewTaskCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
+use App\Application\CommandHandler\AddNewTaskCommandHandler;
 use App\Application\Query\GetAllUserBoardsQuery;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
@@ -26,7 +28,8 @@ class CommandBusServiceProvider extends ServiceProvider
                 new HandleMessageMiddleware(
                     new HandlersLocator(
                         array_merge(
-                            $this->getBoardsCommand($app)
+                            $this->getBoardsCommand($app),
+                            $this->getTasksCommand($app),
                         )
                     )
                 )
@@ -56,6 +59,15 @@ class CommandBusServiceProvider extends ServiceProvider
             GetAllUserBoardsQuery::class => [
                 new HandlerDescriptor($app->make(GetAllUserBoardsQueryHandler::class)),
             ],
+        ];
+    }
+
+    private function getTasksCommand($app): array
+    {
+        return [
+            AddNewTaskCommand::class => [
+                new HandlerDescriptor($app->make(AddNewTaskCommandHandler::class)),
+            ]
         ];
     }
 }

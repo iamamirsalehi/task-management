@@ -13,7 +13,7 @@ class BoardNameType extends StringType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        if(!$value instanceof Name ){
+        if (!$value instanceof Name) {
             throw new \InvalidArgumentException('board name should be instance of Name');
         }
 

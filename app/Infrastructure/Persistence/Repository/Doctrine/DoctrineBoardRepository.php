@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Repository\Doctrine;
 
 use App\Domain\Entity\Board\Board;
+use App\Domain\Entity\Board\ID;
 use App\Domain\Entity\Board\Name;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Persistence\Repository\BoardRepository;
@@ -38,5 +39,16 @@ class DoctrineBoardRepository extends DoctrineBaseRepository implements BoardRep
             ->getResult();
 
         return new Collection($boards);
+    }
+
+    public function findByID(ID $id): ?Board
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->select('b')
+            ->from(Board::class, 'b')
+            ->where('b.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

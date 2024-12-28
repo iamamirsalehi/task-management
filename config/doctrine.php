@@ -127,6 +127,10 @@ return [
         'board_id' => \App\Infrastructure\Cast\Doctrine\Board\BoardIDType::class,
         'board_name' => \App\Infrastructure\Cast\Doctrine\Board\BoardNameType::class,
         'board_description' => \App\Infrastructure\Cast\Doctrine\Board\BoardDescriptionType::class,
+        'task_id' => \App\Infrastructure\Cast\Doctrine\Task\TaskIDType::class,
+        'task_title' => \App\Infrastructure\Cast\Doctrine\Task\TaskTitleType::class,
+        'task_description' => \App\Infrastructure\Cast\Doctrine\Task\TaskDescriptionType::class,
+        'task_deadline' => \App\Infrastructure\Cast\Doctrine\Task\TaskDeadlineType::class,
     ],
     /*
     |--------------------------------------------------------------------------

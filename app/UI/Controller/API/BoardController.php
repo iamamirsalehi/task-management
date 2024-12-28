@@ -11,7 +11,7 @@ use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
-use App\UI\Request\AddNewBoardRequest;
+use App\UI\Request\API\AddNewBoardRequest;
 use App\UI\Resource\API\BoardResource;
 use App\UI\Response\JsonResponse;
 use Illuminate\Http\Request;
