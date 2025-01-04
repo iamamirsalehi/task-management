@@ -131,6 +131,8 @@ return [
         'task_title' => \App\Infrastructure\Cast\Doctrine\Task\TaskTitleType::class,
         'task_description' => \App\Infrastructure\Cast\Doctrine\Task\TaskDescriptionType::class,
         'task_deadline' => \App\Infrastructure\Cast\Doctrine\Task\TaskDeadlineType::class,
+        'task_status' => \App\Infrastructure\Cast\Doctrine\Task\TaskStatusType::class,
+        'task_priority' => \App\Infrastructure\Cast\Doctrine\Task\TaskPriorityType::class,
     ],
     /*
     |--------------------------------------------------------------------------

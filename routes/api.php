@@ -12,4 +12,9 @@ Route::prefix('board')->group(function () {
 
 Route::prefix('task')->group(function () {
     Route::post('', [TaskController::class, 'add']);
+    Route::post('{id}/start', [TaskController::class, 'start']);
+    Route::post('{id}/complete', [TaskController::class, 'complete']);
+    Route::post('{id}/reopen', [TaskController::class, 'reopen']);
+    Route::post('{id}/prioritize', [TaskController::class, 'prioritize']);
+    Route::post('{id}/assign-deadline', [TaskController::class, 'assignDeadline']);
 });

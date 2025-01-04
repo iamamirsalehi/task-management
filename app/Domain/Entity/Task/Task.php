@@ -2,7 +2,10 @@
 
 namespace App\Domain\Entity\Task;
 
+use App\Domain\Entity\Enums\TaskPriority;
+use App\Domain\Entity\Enums\TaskStatus;
 use App\Domain\Entity\User\User;
+use App\Domain\Exception\TaskException;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Entity\Board\ID as BoardID;
@@ -26,11 +29,15 @@ class Task
     #[ORM\Column(name: 'deadline', type: 'task_deadline', nullable: true)]
     private ?Deadline $deadline = null;
 
+    #[ORM\Column(name: 'status', type: 'task_status')]
+    private TaskStatus $status;
+
+    #[ORM\Column(name: 'priority', type: 'task_priority')]
+    private TaskPriority $priority;
+
     #[ORM\Column(name: 'board_id', type: 'board_id')]
     private BoardID $boardID;
 
-//    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tasks')]
-//    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\Column(name: 'user_id', type: 'user_id')]
     private UserID $userID;
 
@@ -45,6 +52,8 @@ class Task
         $this->title = $title;
         $this->boardID = $boardID;
         $this->userID = $userID;
+        $this->status = TaskStatus::NotStarted;
+        $this->priority = TaskPriority::Medium;
     }
 
     public function getId(): ID
@@ -110,5 +119,58 @@ class Task
     {
         $now = new \DateTime('now');
         $this->updatedAt = $now;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function start(): void
+    {
+        if ($this->status != TaskStatus::NotStarted) {
+            throw TaskException::taskMustBeNoStarted();
+        }
+
+        $this->status = TaskStatus::InProgress;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function complete(): void
+    {
+        if ($this->status != TaskStatus::InProgress) {
+            throw TaskException::taskMustBeInProgress();
+        }
+
+        $this->status = TaskStatus::Completed;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function reopen(): void
+    {
+        if ($this->status != TaskStatus::Completed) {
+            throw TaskException::taskMustBeCompleted();
+        }
+
+        $this->status = TaskStatus::NotStarted;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function changePriority(TaskPriority $priority): void
+    {
+        if ($this->status != TaskStatus::NotStarted || $this->status != TaskStatus::InProgress) {
+            throw TaskException::taskMustBeInProgressOrNotStartedToChangeThePriority();
+        }
+
+        $this->priority = $priority;
+    }
+
+    public function changeDeadline(Deadline $deadline): void
+    {
+        $this->deadline = $deadline;
     }
 }

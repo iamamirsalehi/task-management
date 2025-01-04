@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->string('title');
             $table->tinyText('description')->nullable();
             $table->dateTime('deadline')->nullable();
+            $table->string('status');
+            $table->string('priority');
 
             $table->unsignedBigInteger('board_id');
             $table->foreign('board_id')->references('id')->on('boards');

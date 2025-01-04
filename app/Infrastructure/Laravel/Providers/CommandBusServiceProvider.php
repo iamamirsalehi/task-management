@@ -4,8 +4,18 @@ namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Command\AddNewBoardCommand;
 use App\Application\Command\AddNewTaskCommand;
+use App\Application\Command\AssignDeadlineToATaskCommand;
+use App\Application\Command\CompleteATaskCommand;
+use App\Application\Command\PrioritizeATaskCommand;
+use App\Application\Command\ReopenATaskCommand;
+use App\Application\Command\StartATaskCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
 use App\Application\CommandHandler\AddNewTaskCommandHandler;
+use App\Application\CommandHandler\AssignDeadlineToATaskCommandHandler;
+use App\Application\CommandHandler\CompleteATaskCommandHandler;
+use App\Application\CommandHandler\PrioritizeATaskCommandHandler;
+use App\Application\CommandHandler\ReopenATaskCommandHandler;
+use App\Application\CommandHandler\StartATaskCommandHandler;
 use App\Application\Query\GetAllUserBoardsQuery;
 use App\Application\Query\GetBoardTasksQuery;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
@@ -72,6 +82,21 @@ class CommandBusServiceProvider extends ServiceProvider
         return [
             AddNewTaskCommand::class => [
                 new HandlerDescriptor($app->make(AddNewTaskCommandHandler::class)),
+            ],
+            StartATaskCommand::class => [
+                new HandlerDescriptor($app->make(StartATaskCommandHandler::class)),
+            ],
+            CompleteATaskCommand::class => [
+                new HandlerDescriptor($app->make(CompleteATaskCommandHandler::class))
+            ],
+            ReopenATaskCommand::class => [
+                new HandlerDescriptor($app->make(ReopenATaskCommandHandler::class))
+            ],
+            PrioritizeATaskCommand::class => [
+                new HandlerDescriptor($app->make(PrioritizeATaskCommandHandler::class))
+            ],
+            AssignDeadlineToATaskCommand::class => [
+                new AssignDeadlineToATaskCommandHandler($app->make(AssignDeadlineToATaskCommandHandler::class))
             ]
         ];
     }
