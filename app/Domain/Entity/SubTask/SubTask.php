@@ -2,8 +2,8 @@
 
 namespace App\Domain\Entity\SubTask;
 
-use App\Domain\Entity\Enums\SubTaskStatus;
 use App\Domain\Entity\Task\ID as TaskID;
+use App\Domain\Enums\SubTaskStatus;
 use App\Domain\Exception\SubTaskException;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -99,7 +99,7 @@ final class SubTask
      */
     public function start(): void
     {
-        if ($this->status != SubTaskStatus::NotStarted) {
+        if (!$this->isNotStarted()) {
             throw SubTaskException::canNotStartSubTask();
         }
 
@@ -111,11 +111,16 @@ final class SubTask
      */
     public function complete(): void
     {
-        if ($this->status != SubTaskStatus::InProgress) {
+        if (!$this->isInProgress()) {
             throw SubTaskException::canNotCompleteSubTask();
         }
 
         $this->status = SubTaskStatus::Completed;
+    }
+
+    public function isInProgress(): bool
+    {
+        return $this->status == SubTaskStatus::InProgress;
     }
 
     public function isCompleted(): bool

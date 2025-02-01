@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Entity\Enums;
+namespace App\Domain\Enums;
 
 enum SubTaskStatus: string
 {

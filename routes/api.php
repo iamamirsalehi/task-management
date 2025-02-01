@@ -12,6 +12,7 @@ Route::prefix('board')->group(function () {
 });
 
 Route::prefix('task')->group(function () {
+    Route::get('filter', [TaskController::class, 'filter']);
     Route::post('', [TaskController::class, 'add']);
     Route::post('{id}/start', [TaskController::class, 'start']);
     Route::post('{id}/complete', [TaskController::class, 'complete']);

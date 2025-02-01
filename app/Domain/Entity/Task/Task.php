@@ -2,12 +2,12 @@
 
 namespace App\Domain\Entity\Task;
 
-use App\Domain\Entity\Enums\TaskPriority;
-use App\Domain\Entity\Enums\TaskStatus;
+use App\Domain\Entity\Board\ID as BoardID;
+use App\Domain\Entity\User\ID as UserID;
+use App\Domain\Enums\TaskPriority;
+use App\Domain\Enums\TaskStatus;
 use App\Domain\Exception\TaskException;
 use Doctrine\ORM\Mapping as ORM;
-use App\Domain\Entity\User\ID as UserID;
-use App\Domain\Entity\Board\ID as BoardID;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'tasks')]
@@ -130,7 +130,7 @@ final class Task
      */
     public function start(): void
     {
-        if ($this->status != TaskStatus::NotStarted) {
+        if (!$this->isNotStarted()) {
             throw TaskException::taskMustBeNoStarted();
         }
 
@@ -142,7 +142,7 @@ final class Task
      */
     public function complete(): void
     {
-        if ($this->status != TaskStatus::InProgress) {
+        if (!$this->isInProgress()) {
             throw TaskException::taskMustBeInProgress();
         }
 
@@ -181,7 +181,7 @@ final class Task
      */
     public function changeToNotStarted(): void
     {
-        if ($this->isNotStarted()){
+        if ($this->isNotStarted()) {
             throw TaskException::taskIsAlreadyNotStarted();
         }
 
@@ -193,7 +193,7 @@ final class Task
      */
     public function reopen(): void
     {
-        if ($this->status != TaskStatus::Completed) {
+        if (!$this->isCompleted()) {
             throw TaskException::taskMustBeCompleted();
         }
 
@@ -205,7 +205,7 @@ final class Task
      */
     public function changePriority(TaskPriority $priority): void
     {
-        if ($this->status != TaskStatus::NotStarted || $this->status != TaskStatus::InProgress) {
+        if (!$this->isNotStarted() || !$this->isInProgress()) {
             throw TaskException::taskMustBeInProgressOrNotStartedToChangeThePriority();
         }
 

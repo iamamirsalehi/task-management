@@ -2,10 +2,10 @@
 
 namespace App\Domain\Persistence\Repository;
 
-use App\Domain\Entity\Enums\SubTaskStatus;
 use App\Domain\Entity\SubTask\ID;
-use App\Domain\Entity\Task\ID as TaskID;
 use App\Domain\Entity\SubTask\SubTask;
+use App\Domain\Entity\Task\ID as TaskID;
+use App\Domain\Enums\SubTaskStatus;
 use Illuminate\Support\Collection;
 
 interface SubTaskRepository

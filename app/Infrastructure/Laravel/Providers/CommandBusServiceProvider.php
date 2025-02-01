@@ -9,7 +9,9 @@ use App\Application\Command\AssignDeadlineToATaskCommand;
 use App\Application\Command\CompleteASubTaskCommand;
 use App\Application\Command\CompleteATaskCommand;
 use App\Application\Command\PrioritizeATaskCommand;
+use App\Application\Command\RemoveSubTaskCommand;
 use App\Application\Command\ReopenATaskCommand;
+use App\Application\Command\ReopenSubTaskCommand;
 use App\Application\Command\StartATaskCommand;
 use App\Application\Command\StartSubTaskCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
@@ -19,12 +21,16 @@ use App\Application\CommandHandler\AssignDeadlineToATaskCommandHandler;
 use App\Application\CommandHandler\CompleteASubTaskCommandHandler;
 use App\Application\CommandHandler\CompleteATaskCommandHandler;
 use App\Application\CommandHandler\PrioritizeATaskCommandHandler;
+use App\Application\CommandHandler\RemoveSubTaskCommandHandler;
 use App\Application\CommandHandler\ReopenATaskCommandHandler;
+use App\Application\CommandHandler\ReopenSubTaskCommandHandler;
 use App\Application\CommandHandler\StartATaskCommandHandler;
 use App\Application\CommandHandler\StartSubTaskCommandHandler;
+use App\Application\Query\FilterTasksQuery;
 use App\Application\Query\GetAllUserBoardsQuery;
 use App\Application\Query\GetBoardTasksQuery;
 use App\Application\Query\GetTaskSubTasksQuery;
+use App\Application\QueryHandler\FilterTasksQueryHandler;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
 use App\Application\QueryHandler\GetBoardTasksQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
@@ -104,8 +110,11 @@ class CommandBusServiceProvider extends ServiceProvider
                 new HandlerDescriptor($app->make(PrioritizeATaskCommandHandler::class))
             ],
             AssignDeadlineToATaskCommand::class => [
-                new AssignDeadlineToATaskCommandHandler($app->make(AssignDeadlineToATaskCommandHandler::class))
-            ]
+                new HandlerDescriptor($app->make(AssignDeadlineToATaskCommandHandler::class))
+            ],
+            FilterTasksQuery::class => [
+                new HandlerDescriptor($app->make(FilterTasksQueryHandler::class)),
+            ],
         ];
     }
 
@@ -123,6 +132,12 @@ class CommandBusServiceProvider extends ServiceProvider
             ],
             StartSubTaskCommand::class => [
                 new HandlerDescriptor($app->make(StartSubTaskCommandHandler::class))
+            ],
+            ReopenSubTaskCommand::class => [
+                new HandlerDescriptor($app->make(ReopenSubTaskCommandHandler::class))
+            ],
+            RemoveSubTaskCommand::class => [
+                new HandlerDescriptor($app->make(RemoveSubTaskCommandHandler::class)),
             ],
         ];
     }

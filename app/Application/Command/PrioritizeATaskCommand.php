@@ -2,8 +2,8 @@
 
 namespace App\Application\Command;
 
-use App\Domain\Entity\Enums\TaskPriority;
 use App\Domain\Entity\Task\ID;
+use App\Domain\Enums\TaskPriority;
 
 final readonly class PrioritizeATaskCommand
 {

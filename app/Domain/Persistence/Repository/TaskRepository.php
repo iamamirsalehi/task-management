@@ -15,4 +15,6 @@ interface TaskRepository
     public function getAllByUserIDAndBoardID(UserID $userID, BoardID $boardID): Collection;
 
     public function findByID(ID $id): ?Task;
+
+    public function filter(FilterTasksData $filterTasksData): Collection;
 }

@@ -8,26 +8,50 @@ use App\Application\Command\CompleteATaskCommand;
 use App\Application\Command\PrioritizeATaskCommand;
 use App\Application\Command\ReopenATaskCommand;
 use App\Application\Command\StartATaskCommand;
+use App\Application\Query\FilterTasksQuery;
 use App\Domain\Entity\Board\ID as BoardID;
-use App\Domain\Entity\Enums\TaskPriority;
 use App\Domain\Entity\Task\Deadline;
 use App\Domain\Entity\Task\Description;
 use App\Domain\Entity\Task\ID;
-use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Entity\Task\Title;
+use App\Domain\Entity\User\ID as UserID;
+use App\Domain\Enums\TaskPriority;
+use App\Domain\Enums\TaskStatus;
 use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
+use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\API\AddNewTaskRequest;
 use App\UI\Request\API\AssignDeadlineToATaskRequest;
+use App\UI\Request\API\FilterTasksRequest;
 use App\UI\Request\API\PrioritizeATaskRequest;
+use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 final readonly class TaskController
 {
-    public function __construct(private CommandBus $commandBus)
+    public function __construct(
+        private CommandBus $commandBus,
+        private QueryBus   $queryBus,
+    )
     {
+    }
+
+    public function filter(FilterTasksRequest $request): Response
+    {
+        $filterTask = new FilterTasksQuery();
+        if ($request->has('priority')) {
+            $filterTask->setPriority(TaskPriority::from($request->get('priority')));
+        }
+
+        if ($request->has('status')) {
+            $filterTask->setStatus(TaskStatus::from($request->get('status')));
+        }
+
+        $tasks = $this->queryBus->handle($filterTask);
+
+        return JsonResponse::ok('', TaskResource::collection($tasks)->toArray($request));
     }
 
     public function add(AddNewTaskRequest $request): Response
