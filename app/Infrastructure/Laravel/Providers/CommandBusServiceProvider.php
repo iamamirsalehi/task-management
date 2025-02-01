@@ -3,21 +3,28 @@
 namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Command\AddNewBoardCommand;
+use App\Application\Command\AddNewSubTaskCommand;
 use App\Application\Command\AddNewTaskCommand;
 use App\Application\Command\AssignDeadlineToATaskCommand;
+use App\Application\Command\CompleteASubTaskCommand;
 use App\Application\Command\CompleteATaskCommand;
 use App\Application\Command\PrioritizeATaskCommand;
 use App\Application\Command\ReopenATaskCommand;
 use App\Application\Command\StartATaskCommand;
+use App\Application\Command\StartSubTaskCommand;
 use App\Application\CommandHandler\AddNewBoardCommandHandler;
+use App\Application\CommandHandler\AddNewSubTaskCommandHandler;
 use App\Application\CommandHandler\AddNewTaskCommandHandler;
 use App\Application\CommandHandler\AssignDeadlineToATaskCommandHandler;
+use App\Application\CommandHandler\CompleteASubTaskCommandHandler;
 use App\Application\CommandHandler\CompleteATaskCommandHandler;
 use App\Application\CommandHandler\PrioritizeATaskCommandHandler;
 use App\Application\CommandHandler\ReopenATaskCommandHandler;
 use App\Application\CommandHandler\StartATaskCommandHandler;
+use App\Application\CommandHandler\StartSubTaskCommandHandler;
 use App\Application\Query\GetAllUserBoardsQuery;
 use App\Application\Query\GetBoardTasksQuery;
+use App\Application\Query\GetTaskSubTasksQuery;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
 use App\Application\QueryHandler\GetBoardTasksQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
@@ -42,6 +49,7 @@ class CommandBusServiceProvider extends ServiceProvider
                         array_merge(
                             $this->getBoardsCommand($app),
                             $this->getTasksCommand($app),
+                            $this->getSubTasksCommand($app),
                         )
                     )
                 )
@@ -98,6 +106,24 @@ class CommandBusServiceProvider extends ServiceProvider
             AssignDeadlineToATaskCommand::class => [
                 new AssignDeadlineToATaskCommandHandler($app->make(AssignDeadlineToATaskCommandHandler::class))
             ]
+        ];
+    }
+
+    private function getSubTasksCommand($app): array
+    {
+        return [
+            AddNewSubTaskCommand::class => [
+                new HandlerDescriptor($app->make(AddNewSubTaskCommandHandler::class)),
+            ],
+            GetTaskSubTasksQuery::class => [
+                new HandlerDescriptor($app->make(GetBoardTasksQueryHandler::class)),
+            ],
+            CompleteASubTaskCommand::class => [
+                new HandlerDescriptor($app->make(CompleteASubTaskCommandHandler::class)),
+            ],
+            StartSubTaskCommand::class => [
+                new HandlerDescriptor($app->make(StartSubTaskCommandHandler::class))
+            ],
         ];
     }
 }

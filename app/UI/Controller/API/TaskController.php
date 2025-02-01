@@ -53,7 +53,7 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::created('');
+        return JsonResponse::created();
     }
 
     public function start(Request $request, $id): Response
@@ -64,7 +64,7 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('');
+        return JsonResponse::ok();
     }
 
     public function complete(Request $request, $id): Response
@@ -75,7 +75,7 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('');
+        return JsonResponse::ok();
     }
 
     public function reopen(Request $request, $id): Response
@@ -86,7 +86,7 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('');
+        return JsonResponse::ok();
     }
 
     public function prioritize(PrioritizeATaskRequest $request, $id): Response
@@ -99,7 +99,7 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('');
+        return JsonResponse::ok();
     }
 
     public function assignDeadline(AssignDeadlineToATaskRequest $request, $id): Response
@@ -111,6 +111,6 @@ final readonly class TaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('');
+        return JsonResponse::ok();
     }
 }

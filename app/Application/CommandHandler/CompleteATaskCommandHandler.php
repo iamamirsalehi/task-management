@@ -3,12 +3,16 @@
 namespace App\Application\CommandHandler;
 
 use App\Application\Command\CompleteATaskCommand;
+use App\Application\Services\TaskService\TaskService;
 use App\Domain\Exception\TaskException;
 use App\Domain\Persistence\Repository\TaskRepository;
 
 final readonly class CompleteATaskCommandHandler
 {
-    public function __construct(private TaskRepository $taskRepository)
+    public function __construct(
+        private TaskRepository $taskRepository,
+        private TaskService    $taskService,
+    )
     {
     }
 
@@ -20,6 +24,10 @@ final readonly class CompleteATaskCommandHandler
         $task = $this->taskRepository->findByID($command->id);
         if (is_null($task)) {
             throw TaskException::invalidID();
+        }
+
+        if (!$this->taskService->areAllSubTasksCompleted($task->getId())) {
+            throw TaskException::allSubTasksMustBeCompleted();
         }
 
         $task->complete();

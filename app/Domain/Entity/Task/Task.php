@@ -4,7 +4,6 @@ namespace App\Domain\Entity\Task;
 
 use App\Domain\Entity\Enums\TaskPriority;
 use App\Domain\Entity\Enums\TaskStatus;
-use App\Domain\Entity\User\User;
 use App\Domain\Exception\TaskException;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Entity\User\ID as UserID;
@@ -13,7 +12,7 @@ use App\Domain\Entity\Board\ID as BoardID;
 #[ORM\Entity]
 #[ORM\Table(name: 'tasks')]
 #[ORM\HasLifecycleCallbacks]
-class Task
+final class Task
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -86,6 +85,11 @@ class Task
         $this->deadline = $deadline;
     }
 
+    public function getPriority(): TaskPriority
+    {
+        return $this->priority;
+    }
+
     public function getBoardID(): BoardID
     {
         return $this->boardID;
@@ -143,6 +147,45 @@ class Task
         }
 
         $this->status = TaskStatus::Completed;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function toInProgress(): void
+    {
+        if ($this->isInProgress()) {
+            throw TaskException::taskAlreadyIsInProgress();
+        }
+
+        $this->status = TaskStatus::InProgress;
+    }
+
+    public function isInProgress(): bool
+    {
+        return $this->status == TaskStatus::InProgress;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->status == TaskStatus::Completed;
+    }
+
+    public function isNotStarted(): bool
+    {
+        return $this->status == TaskStatus::NotStarted;
+    }
+
+    /**
+     * @throws TaskException
+     */
+    public function changeToNotStarted(): void
+    {
+        if ($this->isNotStarted()){
+            throw TaskException::taskIsAlreadyNotStarted();
+        }
+
+        $this->status = TaskStatus::NotStarted;
     }
 
     /**

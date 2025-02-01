@@ -8,7 +8,7 @@ use App\Domain\Entity\User\ID as UserID;
 #[ORM\Entity]
 #[ORM\Table(name: 'boards')]
 #[ORM\HasLifecycleCallbacks]
-class Board
+final class Board
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
