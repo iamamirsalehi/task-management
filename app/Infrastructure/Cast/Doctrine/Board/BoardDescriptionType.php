@@ -13,6 +13,10 @@ class BoardDescriptionType extends StringType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
+        if (is_null($value)) {
+            return null;
+        }
+
         if (!$value instanceof Description) {
             throw new \InvalidArgumentException('value must be instance of Description');
         }

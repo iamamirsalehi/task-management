@@ -21,11 +21,6 @@ class PrioritizeATaskRequest extends FormRequest
 
     private function getPriorityAsString(): string
     {
-        $priorities = '';
-        foreach (TaskPriority::cases() as $priority) {
-            $priorities .= $priority->value . ', ';
-        }
-
-        return rtrim($priorities, ', ');
+        return implode(',', TaskPriority::getValuesAsArray());
     }
 }

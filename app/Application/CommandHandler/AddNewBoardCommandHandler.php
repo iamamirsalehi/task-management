@@ -16,16 +16,16 @@ final readonly class AddNewBoardCommandHandler
     /**
      * @throws BoardException
      */
-    public function __invoke(AddNewBoardCommand $command): void
+    public function __invoke(AddNewBoardCommand $addNewBoardCommand): void
     {
-        $existingBoard = $this->boardRepository->findByName($command->getName());
+        $existingBoard = $this->boardRepository->findByName($addNewBoardCommand->getName());
         if ($existingBoard) {
             throw BoardException::boardAlreadyExists();
         }
 
-        $board = new Board($command->getName(), $command->getUserID());
-        if (!empty($command->getDescription())) {
-            $board->setDescription($command->getDescription());
+        $board = new Board($addNewBoardCommand->getName(), $addNewBoardCommand->getUserID());
+        if (!is_null($addNewBoardCommand->getDescription())) {
+            $board->setDescription($addNewBoardCommand->getDescription());
         }
 
         $this->boardRepository->save($board);

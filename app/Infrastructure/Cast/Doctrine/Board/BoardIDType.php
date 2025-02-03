@@ -16,7 +16,7 @@ class BoardIDType extends Type
         if (!$value instanceof ID) {
             throw new \InvalidArgumentException('invalid board id type');
         }
-        return $value->toPrimitiveType();
+        return (int)$value->toPrimitiveType();
     }
 
     /**

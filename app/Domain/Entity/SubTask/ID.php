@@ -8,7 +8,7 @@ final readonly class ID
 {
     public function __construct(private int $id)
     {
-        Assert::that($this->id)->minLength(1);
+        Assert::that($this->id)->min(1);
     }
 
     public function toPrimitiveType(): int

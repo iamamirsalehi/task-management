@@ -8,9 +8,12 @@ use App\Domain\Entity\User\ID as UserID;
 
 final class AddNewBoardCommand
 {
-    private Description $description;
+    private ?Description $description = null;
 
-    public function __construct(private Name $name, private UserID $userID)
+    public function __construct(
+        private readonly Name   $name,
+        private readonly UserID $userID
+    )
     {
     }
 
@@ -19,7 +22,7 @@ final class AddNewBoardCommand
         $this->description = $description;
     }
 
-    public function getDescription(): Description
+    public function getDescription(): ?Description
     {
         return $this->description;
     }

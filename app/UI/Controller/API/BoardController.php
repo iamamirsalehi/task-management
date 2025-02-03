@@ -36,7 +36,7 @@ final readonly class BoardController
         try {
             $addNewBoardCommand = new AddNewBoardCommand(
                 new Name($request->get('name')),
-                new UserID($request->get('user_id')),
+                new UserID((int)$request->get('user_id')),
             );
 
             if ($request->has('description')) {
