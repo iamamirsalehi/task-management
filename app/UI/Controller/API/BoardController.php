@@ -14,10 +14,10 @@ use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\API\AddNewBoardRequest;
+use App\UI\Request\API\GetTasksRequest;
 use App\UI\Resource\API\BoardResource;
 use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
-use Assert\Assert;
 use Assert\InvalidArgumentException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -64,7 +64,7 @@ final readonly class BoardController
         return JsonResponse::ok('', BoardResource::collection($boards)->toArray($request));
     }
 
-    public function getTasks(Request $request, $id): Response
+    public function getTasks(GetTasksRequest $request, $id): Response
     {
         try {
             $userID = new UserID($request->get('user_id'));

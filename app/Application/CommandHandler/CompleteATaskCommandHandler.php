@@ -19,9 +19,9 @@ final readonly class CompleteATaskCommandHandler
     /**
      * @throws TaskException
      */
-    public function __invoke(CompleteATaskCommand $command): void
+    public function __invoke(CompleteATaskCommand $completeATaskCommand): void
     {
-        $task = $this->taskRepository->findByID($command->id);
+        $task = $this->taskRepository->findByID($completeATaskCommand->id);
         if (is_null($task)) {
             throw TaskException::invalidID();
         }

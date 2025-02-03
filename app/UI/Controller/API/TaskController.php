@@ -83,7 +83,7 @@ final readonly class TaskController
     public function start(Request $request, $id): Response
     {
         try {
-            $this->commandBus->handle(new StartATaskCommand(new ID($id)));
+            $this->commandBus->handle(new StartATaskCommand(new ID($id), new UserID($request->get('user_id'))));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
@@ -94,7 +94,10 @@ final readonly class TaskController
     public function complete(Request $request, $id): Response
     {
         try {
-            $this->commandBus->handle(new CompleteATaskCommand(new ID($id)));
+            $taskID = new ID($id);
+            $userID = new UserID($request->get('user_id'));
+
+            $this->commandBus->handle(new CompleteATaskCommand($taskID, $userID));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }

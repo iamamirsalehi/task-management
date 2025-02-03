@@ -13,7 +13,7 @@ class TaskIDType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): int
     {
-        if ($value instanceof ID) {
+        if (!$value instanceof ID) {
             throw new \InvalidArgumentException('task id should be instance of ID');
         }
 

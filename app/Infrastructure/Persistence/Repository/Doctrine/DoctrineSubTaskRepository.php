@@ -56,9 +56,8 @@ class DoctrineSubTaskRepository extends DoctrineBaseRepository implements SubTas
         return $this->entityManager->createQueryBuilder()
             ->select('COUNT(s)')
             ->from(SubTask::class, 's')
-            ->where('s.parentID = :parentID')
-            ->where('s.status = :status')
-            ->setParameter('parentID', $parentID)
+            ->where('s.parentID = :parent_id AND s.status = :status')
+            ->setParameter('parent_id', $parentID)
             ->setParameter('status', $status)
             ->getQuery()
             ->getSingleScalarResult();
