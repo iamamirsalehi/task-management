@@ -17,6 +17,8 @@ use App\UI\Request\API\AddNewBoardRequest;
 use App\UI\Resource\API\BoardResource;
 use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
+use Assert\Assert;
+use Assert\InvalidArgumentException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -42,7 +44,7 @@ final readonly class BoardController
             }
 
             $this->commandBus->handle($addNewBoardCommand);
-        } catch (BusinessException $exception) {
+        } catch (BusinessException|InvalidArgumentException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 

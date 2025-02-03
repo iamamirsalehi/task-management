@@ -2,18 +2,13 @@
 
 namespace App\Domain\Entity\Task;
 
-use App\Domain\Exception\TaskException;
+use Assert\Assert;
 
 final readonly class ID
 {
-    /**
-     * @throws TaskException
-     */
     public function __construct(private int $id)
     {
-        if ($this->id <= 0) {
-            throw TaskException::invalidID();
-        }
+        Assert::that($this->id)->minLength(1);
     }
 
     public function toPrimitiveType(): int

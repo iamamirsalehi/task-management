@@ -2,23 +2,13 @@
 
 namespace App\Domain\Entity\Task;
 
-use App\Domain\Exception\TaskException;
+use Assert\Assert;
 
 final readonly class Title
 {
-    /**
-     * @throws TaskException
-     */
     public function __construct(private string $title)
     {
-        if (empty($this->title)) {
-            throw TaskException::invalidTitle();
-        }
-
-        $titleLen = strlen($this->title);
-        if ($titleLen < 5 || $titleLen > 100) {
-            throw TaskException::invalidTitle();
-        }
+        Assert::that($this->title)->notEmpty()->minLength(5)->maxLength(100);
     }
 
     public function toPrimitiveType(): string

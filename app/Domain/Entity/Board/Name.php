@@ -2,23 +2,13 @@
 
 namespace App\Domain\Entity\Board;
 
-use App\Domain\Exception\BoardException;
+use Assert\Assert;
 
 final readonly class Name
 {
-    /**
-     * @throws BoardException
-     */
     public function __construct(private string $name)
     {
-        if (empty($this->name)) {
-            throw BoardException::invalidName();
-        }
-
-        $nameLen = strlen($this->name);
-        if ($nameLen < 3 || $nameLen > 50) {
-            throw BoardException::invalidName();
-        }
+        Assert::that($name)->notEmpty()->minLength(3)->maxLength(50);
     }
 
     public function toPrimitiveType(): string

@@ -2,22 +2,13 @@
 
 namespace App\Domain\Entity\Board;
 
-use App\Domain\Exception\BoardException;
+use Assert\Assert;
 
 final readonly class Description
 {
-    /**
-     * @throws BoardException
-     */
     public function __construct(private string $description)
     {
-        if (empty($this->description)) {
-            throw BoardException::invalidDescription();
-        }
-
-        if (strlen($this->description) > 200) {
-            throw BoardException::invalidDescription();
-        }
+        Assert::that($this->description)->notEmpty()->maxLength(200);
     }
 
     public function toPrimitiveType(): string

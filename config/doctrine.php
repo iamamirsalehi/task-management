@@ -133,9 +133,9 @@ return [
         'task_deadline' => \App\Infrastructure\Cast\Doctrine\Task\TaskDeadlineType::class,
         'task_status' => \App\Infrastructure\Cast\Doctrine\Task\TaskStatusType::class,
         'task_priority' => \App\Infrastructure\Cast\Doctrine\Task\TaskPriorityType::class,
-        'subtask_id' => \App\Infrastructure\Cast\Doctrine\Subtask\SubtaskIDType::class,
-        'subtask_title' => \App\Infrastructure\Cast\Doctrine\Subtask\SubtaskTitleType::class,
-        'subtask_description' => \App\Infrastructure\Cast\Doctrine\Subtask\SubtaskDescriptionType::class,
+        'subtask_id' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskIDType::class,
+        'subtask_title' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskTitleType::class,
+        'subtask_description' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskDescriptionType::class,
     ],
     /*
     |--------------------------------------------------------------------------

@@ -2,18 +2,13 @@
 
 namespace App\Domain\Entity\User;
 
-use App\Domain\Exception\UserException;
+use Assert\Assert;
 
 final readonly class ID
 {
-    /**
-     * @throws UserException
-     */
     public function __construct(private int $id)
     {
-        if ($this->id <= 0) {
-            throw UserException::invalidUserID();
-        }
+        Assert::that($this->id)->minLength(1);
     }
 
     public function toPrimitiveType(): int

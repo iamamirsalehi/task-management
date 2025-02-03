@@ -2,23 +2,13 @@
 
 namespace App\Domain\Entity\Task;
 
-use App\Domain\Exception\TaskException;
+use Assert\Assert;
 
 final readonly class Description
 {
-    /**
-     * @throws TaskException
-     */
     public function __construct(private string $description)
     {
-        if (empty($this->description)) {
-            throw TaskException::invalidDescription();
-        }
-
-        $descriptionLen = strlen($this->description);
-        if ($descriptionLen > 500) {
-            throw TaskException::invalidDescription();
-        }
+        Assert::that($this->description)->notEmpty()->maxLength(500);
     }
 
     public function toPrimitiveType(): string

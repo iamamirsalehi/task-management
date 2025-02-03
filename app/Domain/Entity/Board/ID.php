@@ -2,18 +2,13 @@
 
 namespace App\Domain\Entity\Board;
 
-use App\Domain\Exception\BoardException;
+use Assert\Assert;
 
 final readonly class ID
 {
-    /**
-     * @throws BoardException
-     */
     public function __construct(private int $id)
     {
-        if ($this->id <= 0) {
-            throw BoardException::invalidID();
-        }
+        Assert::that($this->id)->minLength(1);
     }
 
     public function toPrimitiveType(): int

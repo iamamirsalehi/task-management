@@ -2,18 +2,13 @@
 
 namespace App\Domain\Entity\SubTask;
 
-use App\Domain\Exception\SubTaskException;
+use Assert\Assert;
 
-final class ID
+final readonly class ID
 {
-    /**
-     * @throws SubTaskException
-     */
     public function __construct(private int $id)
     {
-        if ($this->id < 0) {
-            throw SubTaskException::invalidID();
-        }
+        Assert::that($this->id)->minLength(1);
     }
 
     public function toPrimitiveType(): int

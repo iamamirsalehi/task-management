@@ -2,19 +2,13 @@
 
 namespace App\Domain\Entity\Task;
 
-use App\Domain\Exception\TaskException;
+use Assert\Assert;
 
 final readonly class Deadline
 {
-    /**
-     * @throws \Exception
-     */
     public function __construct(private string $deadline)
     {
-        $deadlineAsDatetime = new \DateTime($this->deadline);
-        if ($deadlineAsDatetime->diff(new \DateTime('now'))->m < 1) {
-            throw TaskException::invalidDeadline();
-        }
+        Assert::that($this->deadline)->greaterThan(new \DateTime('now'));
     }
 
     public function toPrimitiveType(): string

@@ -2,18 +2,13 @@
 
 namespace App\Domain\Entity\SubTask;
 
-use App\Domain\Exception\SubTaskException;
+use Assert\Assert;
 
-final class Description
+final readonly class Description
 {
-    /**
-     * @throws SubTaskException
-     */
     public function __construct(private string $description)
     {
-        if (strlen($this->description) > 500) {
-            throw SubTaskException::invalidDescription();
-        }
+        Assert::that($this->description)->notEmpty()->maxLength(500);
     }
 
     public function toPrimitiveType(): string

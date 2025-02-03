@@ -2,19 +2,13 @@
 
 namespace App\Domain\Entity\SubTask;
 
-use App\Domain\Exception\SubTaskException;
+use Assert\Assert;
 
-final class Title
+final readonly class Title
 {
-    /**
-     * @throws SubTaskException
-     */
     public function __construct(private string $title)
     {
-        $titleLen = strlen($this->title);
-        if ($titleLen < 5 || $titleLen > 100) {
-            throw SubTaskException::invalidTitle();
-        }
+        Assert::that($this->title)->notEmpty()->minLength(5)->maxLength(100);
     }
 
     public function toPrimitiveType(): string
