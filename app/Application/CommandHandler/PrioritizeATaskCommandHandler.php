@@ -15,14 +15,14 @@ final readonly class PrioritizeATaskCommandHandler
     /**
      * @throws TaskException
      */
-    public function __invoke(PrioritizeATaskCommand $command): void
+    public function __invoke(PrioritizeATaskCommand $prioritizeATaskCommand): void
     {
-        $task = $this->taskRepository->findByID($command->id);
+        $task = $this->taskRepository->findByID($prioritizeATaskCommand->id);
         if (is_null($task)) {
             throw TaskException::invalidID();
         }
 
-        $task->changePriority($command->priority);
+        $task->changePriority($prioritizeATaskCommand->priority);
 
         $this->taskRepository->save($task);
     }

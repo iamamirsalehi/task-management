@@ -136,6 +136,7 @@ return [
         'subtask_id' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskIDType::class,
         'subtask_title' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskTitleType::class,
         'subtask_description' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskDescriptionType::class,
+        'subtask_status' => \App\Infrastructure\Cast\Doctrine\SubTask\SubTaskStatusType::class,
     ],
     /*
     |--------------------------------------------------------------------------

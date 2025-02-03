@@ -205,7 +205,7 @@ final class Task
      */
     public function changePriority(TaskPriority $priority): void
     {
-        if (!$this->isNotStarted() || !$this->isInProgress()) {
+        if (!$this->isNotStarted() && !$this->isInProgress()) {
             throw TaskException::taskMustBeInProgressOrNotStartedToChangeThePriority();
         }
 

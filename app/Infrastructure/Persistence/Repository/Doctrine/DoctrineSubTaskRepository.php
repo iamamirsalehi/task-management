@@ -35,7 +35,8 @@ class DoctrineSubTaskRepository extends DoctrineBaseRepository implements SubTas
             ->from(SubTask::class, 's')
             ->where('s.parentID = :parentID')
             ->setParameter('parentID', $parentID)
-            ->getQuery();
+            ->getQuery()
+            ->getResult();
 
         return new Collection($subTasks);
     }

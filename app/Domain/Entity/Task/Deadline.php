@@ -8,7 +8,7 @@ final readonly class Deadline
 {
     public function __construct(private string $deadline)
     {
-        Assert::that($this->deadline)->greaterThan(new \DateTime('now'));
+        Assert::that($this->deadline)->greaterThan(now());
     }
 
     public function toPrimitiveType(): string

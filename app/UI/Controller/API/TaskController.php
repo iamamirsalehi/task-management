@@ -108,7 +108,10 @@ final readonly class TaskController
     public function reopen(Request $request, $id): Response
     {
         try {
-            $this->commandBus->handle(new ReopenATaskCommand(new ID($id)));
+            $taskID = new ID($id);
+            $userID = new UserID($request->get('user_id'));
+
+            $this->commandBus->handle(new ReopenATaskCommand($taskID, $userID));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }

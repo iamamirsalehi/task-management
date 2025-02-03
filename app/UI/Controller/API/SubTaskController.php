@@ -15,6 +15,7 @@ use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\API\AddNewSubTaskRequest;
+use App\UI\Resource\API\SubTaskResource;
 use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ final readonly class SubTaskController
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
 
-        return JsonResponse::ok('', TaskResource::collection($subTasks)->toArray());
+        return JsonResponse::ok('', SubTaskResource::collection($subTasks)->toArray($request));
     }
 
     public function start(Request $request, $id): Response

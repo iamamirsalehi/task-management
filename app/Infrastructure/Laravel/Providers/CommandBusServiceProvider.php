@@ -33,6 +33,7 @@ use App\Application\Query\GetTaskSubTasksQuery;
 use App\Application\QueryHandler\FilterTasksQueryHandler;
 use App\Application\QueryHandler\GetAllUserBoardsQueryHandler;
 use App\Application\QueryHandler\GetBoardTasksQueryHandler;
+use App\Application\QueryHandler\GetTaskSubTasksQueryHandler;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\CommandBus\SymfonyCommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
@@ -125,7 +126,7 @@ class CommandBusServiceProvider extends ServiceProvider
                 new HandlerDescriptor($app->make(AddNewSubTaskCommandHandler::class)),
             ],
             GetTaskSubTasksQuery::class => [
-                new HandlerDescriptor($app->make(GetBoardTasksQueryHandler::class)),
+                new HandlerDescriptor($app->make(GetTaskSubTasksQueryHandler::class)),
             ],
             CompleteASubTaskCommand::class => [
                 new HandlerDescriptor($app->make(CompleteASubTaskCommandHandler::class)),

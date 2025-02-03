@@ -2,18 +2,20 @@
 
 namespace App\UI\Resource\API;
 
+use App\Domain\Entity\SubTask\SubTask;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class SubTaskResource extends JsonResource
 {
     public function toArray($request): array
     {
+        /** @var $this SubTask */
         return [
             'id' => (string)$this->getId(),
-            'title' => (string)$this->getTitle(),
+            'title' => (string)$this->getDescription(),
             'description' => (string)$this->getDescription(),
-            'deadline' => (string)$this->getDeadline(),
-            'board_id' => (string)$this->getBoardID(),
+            'status' => $this->getStatus()->value,
+            'parent_id' => (string)$this->getParentId(),
             'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
             'updated_at' => $this->getUpdatedAt()->format('Y-m-d H:i:s'),
         ];

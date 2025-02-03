@@ -19,7 +19,7 @@ Route::prefix('task')->group(function () {
     Route::post('{id}/reopen', [TaskController::class, 'reopen']);
     Route::post('{id}/prioritize', [TaskController::class, 'prioritize']);
     Route::post('{id}/assign-deadline', [TaskController::class, 'assignDeadline']);
-    Route::post('{id}/sub-tasks', [SubTaskController::class, 'getSubTasks']);
+    Route::get('{id}/sub-tasks', [SubTaskController::class, 'getSubTasks']);
 });
 
 Route::prefix('sub-task')->group(function () {
