@@ -11,8 +11,12 @@ class TaskDescriptionType extends StringType
 {
     private const NAME = 'description';
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
+        if (is_null($value)) {
+            return null;
+        }
+
         if (!$value instanceof Description) {
             throw new \InvalidArgumentException('task description should be instance of Description');
         }
@@ -21,7 +25,6 @@ class TaskDescriptionType extends StringType
     }
 
     /**
-     * @throws TaskException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Description
     {
