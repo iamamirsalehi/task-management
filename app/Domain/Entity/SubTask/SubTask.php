@@ -138,11 +138,7 @@ final class SubTask
      */
     public function reopen(): void
     {
-        if (!$this->isCompleted()) {
-            throw SubTaskException::canNotReopenSubTask();
-        }
-
-        if (!$this->isNotStarted()) {
+        if (!$this->isNotStarted() && !$this->isCompleted()) {
             throw SubTaskException::canNotReopenSubTask();
         }
 

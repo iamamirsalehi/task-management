@@ -3,6 +3,8 @@
 namespace App\UI\Controller\API;
 
 use App\Application\Command\AddNewSubTaskCommand;
+use App\Application\Command\CompleteASubTaskCommand;
+use App\Application\Command\RemoveSubTaskCommand;
 use App\Application\Command\ReopenSubTaskCommand;
 use App\Application\Command\StartSubTaskCommand;
 use App\Application\Query\GetTaskSubTasksQuery;
@@ -72,7 +74,7 @@ final readonly class SubTaskController
     public function complete(Request $request, $id): Response
     {
         try {
-            $this->commandBus->handle(new StartSubTaskCommand(new SubTaskID($id)));
+            $this->commandBus->handle(new CompleteASubTaskCommand(new SubTaskID($id)));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }
@@ -94,7 +96,7 @@ final readonly class SubTaskController
     public function remove(Request $request, $id): Response
     {
         try {
-            $this->commandBus->handle(new ReopenSubTaskCommand(new SubTaskID($id)));
+            $this->commandBus->handle(new RemoveSubTaskCommand(new SubTaskID($id)));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
         }

@@ -27,5 +27,5 @@ Route::prefix('sub-task')->group(function () {
     Route::post('{id}/start', [SubTaskController::class, 'start']);
     Route::post('{id}/complete', [SubTaskController::class, 'complete']);
     Route::post('{id}/reopen', [SubTaskController::class, 'reopen']);
-    Route::get('{id}/remove', [SubTaskController::class, 'remove']);
+    Route::delete('{id}/remove', [SubTaskController::class, 'remove']);
 });

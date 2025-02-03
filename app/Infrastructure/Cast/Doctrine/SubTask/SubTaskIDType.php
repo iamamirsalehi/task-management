@@ -13,8 +13,8 @@ class SubTaskIDType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): int
     {
-        if ($value instanceof ID) {
-            throw new \InvalidArgumentException('task id should be instance of ID');
+        if (!$value instanceof ID) {
+            throw new \InvalidArgumentException('sub task id should be instance of ID');
         }
 
         return $value->toPrimitiveType();
