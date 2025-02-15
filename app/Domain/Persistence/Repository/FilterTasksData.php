@@ -2,8 +2,8 @@
 
 namespace App\Domain\Persistence\Repository;
 
-use App\Domain\Enums\TaskPriority;
-use App\Domain\Enums\TaskStatus;
+use App\Domain\Enum\TaskPriority;
+use App\Domain\Enum\TaskStatus;
 
 final class FilterTasksData
 {

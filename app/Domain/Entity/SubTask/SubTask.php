@@ -3,7 +3,7 @@
 namespace App\Domain\Entity\SubTask;
 
 use App\Domain\Entity\Task\ID as TaskID;
-use App\Domain\Enums\SubTaskStatus;
+use App\Domain\Enum\SubTaskStatus;
 use App\Domain\Exception\SubTaskException;
 use Doctrine\ORM\Mapping as ORM;
 

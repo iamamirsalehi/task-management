@@ -3,25 +3,23 @@
 namespace App\Application\CommandHandler;
 
 use App\Application\Command\CompleteASubTaskCommand;
-use App\Application\Services\TaskService\TaskService;
+use App\Domain\Event\SubTaskCompletedEvent;
 use App\Domain\Exception\SubTaskException;
 use App\Domain\Exception\TaskException;
 use App\Domain\Persistence\Repository\SubTaskRepository;
-use App\Domain\Persistence\Repository\TaskRepository;
+use Illuminate\Contracts\Events\Dispatcher;
 
 final readonly class CompleteASubTaskCommandHandler
 {
     public function __construct(
-        private TaskRepository    $taskRepository,
         private SubTaskRepository $subTaskRepository,
-        private TaskService       $taskService,
+        private Dispatcher        $dispatcher,
     )
     {
     }
 
     /**
      * @throws SubTaskException
-     * @throws TaskException
      */
     public function __invoke(CompleteASubTaskCommand $command): void
     {
@@ -34,17 +32,6 @@ final readonly class CompleteASubTaskCommandHandler
 
         $this->subTaskRepository->save($subTask);
 
-        if (!$this->taskService->areAllSubTasksCompleted($subTask->getParentID())) {
-            return;
-        }
-
-        $task = $this->taskRepository->findByID($subTask->getParentID());
-        if (is_null($task)) {
-            throw TaskException::invalidID();
-        }
-
-        $task->complete();
-
-        $this->taskRepository->save($task);
+        $this->dispatcher->dispatch(new SubTaskCompletedEvent($subTask));
     }
 }

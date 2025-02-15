@@ -2,7 +2,7 @@
 
 namespace App\UI\Request\API;
 
-use App\Domain\Enums\TaskPriority;
+use App\Domain\Enum\TaskPriority;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PrioritizeATaskRequest extends FormRequest

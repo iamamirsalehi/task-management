@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Cast\Doctrine\Task;
 
-use App\Domain\Enums\TaskPriority;
+use App\Domain\Enum\TaskPriority;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

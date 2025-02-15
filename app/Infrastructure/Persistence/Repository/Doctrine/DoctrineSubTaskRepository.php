@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\Repository\Doctrine;
 use App\Domain\Entity\SubTask\ID;
 use App\Domain\Entity\SubTask\SubTask;
 use App\Domain\Entity\Task\ID as TaskID;
-use App\Domain\Enums\SubTaskStatus;
+use App\Domain\Enum\SubTaskStatus;
 use App\Domain\Persistence\Repository\SubTaskRepository;
 use Illuminate\Support\Collection;
 

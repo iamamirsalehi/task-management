@@ -3,7 +3,7 @@
 namespace App\Application\Command;
 
 use App\Domain\Entity\Task\ID;
-use App\Domain\Enums\TaskPriority;
+use App\Domain\Enum\TaskPriority;
 
 final readonly class PrioritizeATaskCommand
 {

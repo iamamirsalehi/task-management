@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Cast\Doctrine\SubTask;
 
-use App\Domain\Enums\SubTaskStatus;
+use App\Domain\Enum\SubTaskStatus;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

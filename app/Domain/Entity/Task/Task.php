@@ -4,8 +4,8 @@ namespace App\Domain\Entity\Task;
 
 use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Entity\User\ID as UserID;
-use App\Domain\Enums\TaskPriority;
-use App\Domain\Enums\TaskStatus;
+use App\Domain\Enum\TaskPriority;
+use App\Domain\Enum\TaskStatus;
 use App\Domain\Exception\TaskException;
 use Doctrine\ORM\Mapping as ORM;
 

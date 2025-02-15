@@ -3,7 +3,7 @@
 namespace App\Application\Services\TaskService;
 
 use App\Domain\Entity\Task\ID;
-use App\Domain\Enums\SubTaskStatus;
+use App\Domain\Enum\SubTaskStatus;
 use App\Domain\Persistence\Repository\SubTaskRepository;
 
 final readonly class TaskService

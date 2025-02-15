@@ -2,8 +2,8 @@
 
 namespace App\UI\Request\API;
 
-use App\Domain\Enums\TaskPriority;
-use App\Domain\Enums\TaskStatus;
+use App\Domain\Enum\TaskPriority;
+use App\Domain\Enum\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilterTasksRequest extends FormRequest
