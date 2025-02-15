@@ -41,6 +41,7 @@ final readonly class TaskController
     public function filter(FilterTasksRequest $request): Response
     {
         $filterTask = new FilterTasksQuery();
+        //TODO: Adding values to filter must be dynamic
         if ($request->has('priority')) {
             $filterTask->setPriority(TaskPriority::from($request->get('priority')));
         }
