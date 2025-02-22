@@ -22,8 +22,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('board_id');
             $table->foreign('board_id')->references('id')->on('boards');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')->references('id')->on('users');
 
             $table->timestamps();
         });

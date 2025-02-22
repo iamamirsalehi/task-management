@@ -6,6 +6,7 @@ use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Enum\TaskPriority;
 use App\Domain\Enum\TaskStatus;
+use App\Domain\Exception\BusinessException;
 use App\Domain\Exception\TaskException;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,8 +38,8 @@ final class Task
     #[ORM\Column(name: 'board_id', type: 'board_id')]
     private BoardID $boardID;
 
-    #[ORM\Column(name: 'user_id', type: 'user_id')]
-    private UserID $userID;
+    #[ORM\Column(name: 'owner_id', type: 'user_id')]
+    private UserID $ownerID;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     private \DateTime $createdAt;
@@ -46,13 +47,37 @@ final class Task
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     private \DateTime $updatedAt;
 
-    public function __construct(Title $title, BoardID $boardID, UserID $userID)
+    /**
+     * @throws TaskException
+     * @throws \Exception
+     */
+    public function __construct(
+        Title               $title,
+        BoardID             $boardID,
+        UserID              $ownerID,
+        ?Description        $description = null,
+        ?Deadline           $deadline = null,
+        ?\DateTimeImmutable $now = null,
+    )
     {
         $this->title = $title;
         $this->boardID = $boardID;
-        $this->userID = $userID;
+        $this->ownerID = $ownerID;
+        $this->description = $description;
         $this->status = TaskStatus::NotStarted;
         $this->priority = TaskPriority::Medium;
+
+        if (!is_null($deadline) && is_null($now)) {
+            throw TaskException::nowIsRequired();
+        }
+
+        if (!is_null($deadline) && !is_null($now) && !$deadline->isGreaterThan($now)) {
+            throw TaskException::invalidDeadline();
+        }
+
+        if (!is_null($deadline) && !is_null($now) && $deadline->isGreaterThan($now)) {
+            $this->deadline = $deadline;
+        }
     }
 
     public function getId(): ID
@@ -75,29 +100,9 @@ final class Task
         $this->description = $description;
     }
 
-    public function getDeadline(): ?Deadline
-    {
-        return $this->deadline;
-    }
-
-    public function setDeadline(Deadline $deadline): void
-    {
-        $this->deadline = $deadline;
-    }
-
     public function getPriority(): TaskPriority
     {
         return $this->priority;
-    }
-
-    public function getBoardID(): BoardID
-    {
-        return $this->boardID;
-    }
-
-    public function getUserID(): UserID
-    {
-        return $this->userID;
     }
 
     public function getCreatedAt(): \DateTime

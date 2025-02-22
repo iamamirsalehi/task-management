@@ -16,6 +16,7 @@ class TaskException extends BusinessException
     private const ALL_SUB_TASKS_MUST_BE_COMPLETED = 'all subtasks must be completed';
     private const TASK_ALREADY_IS_IN_PROGRESS = 'task already is in progress';
     private const TASK_IS_ALREADY_NOT_STARTED = 'task is already not started';
+    private const NOW_IS_REQUIRED = 'now is required';
 
     public static function invalidID(): self
     {
@@ -75,5 +76,10 @@ class TaskException extends BusinessException
     public static function taskIsAlreadyNotStarted(): self
     {
         return new self(self::TASK_IS_ALREADY_NOT_STARTED);
+    }
+
+    public static function nowIsRequired(): self
+    {
+        return new self(self::NOW_IS_REQUIRED);
     }
 }

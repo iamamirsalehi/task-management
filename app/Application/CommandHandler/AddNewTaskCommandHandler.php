@@ -19,6 +19,7 @@ final readonly class AddNewTaskCommandHandler
 
     /**
      * @throws BoardException
+     * @throws \Exception
      */
     public function __invoke(AddNewTaskCommand $addNewTaskCommand): void
     {
@@ -27,15 +28,14 @@ final readonly class AddNewTaskCommandHandler
             throw BoardException::invalidID();
         }
 
-        $task = new Task($addNewTaskCommand->getTitle(), $board->getId(), $addNewTaskCommand->getUserID());
-
-        if ($addNewTaskCommand->getDescription()) {
-            $task->setDescription($addNewTaskCommand->getDescription());
-        }
-
-        if ($addNewTaskCommand->getDeadline()) {
-            $task->setDeadline($addNewTaskCommand->getDeadline());
-        }
+        $task = new Task(
+            $addNewTaskCommand->getTitle(),
+            $board->getId(),
+            $addNewTaskCommand->getUserID(),
+            $addNewTaskCommand->getDescription(),
+            $addNewTaskCommand->getDeadline(),
+            new \DateTimeImmutable('now'),
+        );
 
         $this->taskRepository->save($task);
     }

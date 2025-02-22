@@ -23,10 +23,11 @@ final readonly class AddNewBoardCommandHandler
             throw BoardException::boardAlreadyExists();
         }
 
-        $board = new Board($addNewBoardCommand->getName(), $addNewBoardCommand->getUserID());
-        if (!is_null($addNewBoardCommand->getDescription())) {
-            $board->setDescription($addNewBoardCommand->getDescription());
-        }
+        $board = new Board(
+            $addNewBoardCommand->getName(),
+            $addNewBoardCommand->getOwnerID(),
+            $addNewBoardCommand->getDescription(),
+        );
 
         $this->boardRepository->save($board);
     }

@@ -21,19 +21,24 @@ final class Board
     #[ORM\Column(name: 'description', type: 'board_description', length: 200, nullable: true)]
     private ?Description $description = null;
 
-    #[ORM\Column(name: 'user_id', type: 'user_id')]
-    private UserID $userID;
+    #[ORM\Column(name: 'owner_id', type: 'user_id')]
+    private UserID $ownerID;
 
     #[ORM\Column(name: 'created_at', type: 'datetime', nullable: true)]
-    private ?\DateTime $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
-    private ?\DateTime $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    public function __construct(Name $name, UserID $userID)
+    public function __construct(
+        Name         $name,
+        UserID       $ownerID,
+        ?Description $description = null
+    )
     {
         $this->name = $name;
-        $this->userID = $userID;
+        $this->ownerID = $ownerID;
+        $this->description = $description;
     }
 
     public function getId(): ID
@@ -46,27 +51,17 @@ final class Board
         return $this->name;
     }
 
-    public function setDescription(Description $description): void
-    {
-        $this->description = $description;
-    }
-
     public function getDescription(): ?Description
     {
         return $this->description;
     }
 
-    public function getUserID(): UserID
-    {
-        return $this->userID;
-    }
-
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -74,7 +69,7 @@ final class Board
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -82,7 +77,7 @@ final class Board
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->updatedAt = $now;
     }
 }

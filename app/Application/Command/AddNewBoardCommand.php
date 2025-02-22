@@ -16,7 +16,7 @@ final class AddNewBoardCommand
 
     public function __construct(
         private readonly Name   $name,
-        private readonly UserID $userID
+        private readonly UserID $ownerID,
     )
     {
     }
@@ -36,8 +36,8 @@ final class AddNewBoardCommand
         return $this->name;
     }
 
-    public function getUserID(): UserID
+    public function getOwnerID(): UserID
     {
-        return $this->userID;
+        return $this->ownerID;
     }
 }
