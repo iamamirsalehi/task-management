@@ -42,10 +42,10 @@ final class Task
     private UserID $ownerID;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
-    private \DateTime $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    private \DateTime $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     /**
      * @throws TaskException
@@ -105,12 +105,22 @@ final class Task
         return $this->priority;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getBoardID(): BoardID
+    {
+        return $this->boardID;
+    }
+
+    public function getDeadline(): ?Deadline
+    {
+        return $this->deadline;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -118,7 +128,7 @@ final class Task
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -126,7 +136,7 @@ final class Task
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->updatedAt = $now;
     }
 
@@ -217,8 +227,16 @@ final class Task
         $this->priority = $priority;
     }
 
-    public function changeDeadline(Deadline $deadline): void
+    /**
+     * @throws TaskException
+     * @throws \Exception
+     */
+    public function changeDeadline(Deadline $deadline, \DateTimeImmutable $now): void
     {
+        if (!$deadline->isGreaterThan($now)) {
+            throw TaskException::invalidDeadline();
+        }
+
         $this->deadline = $deadline;
     }
 }

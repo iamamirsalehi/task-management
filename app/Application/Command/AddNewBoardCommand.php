@@ -10,20 +10,14 @@ use App\Domain\Entity\User\ID as UserID;
 /**
  * @see AddNewBoardCommandHandler
  * */
-final class AddNewBoardCommand
+final readonly class AddNewBoardCommand
 {
-    private ?Description $description = null;
-
     public function __construct(
-        private readonly Name   $name,
-        private readonly UserID $ownerID,
+        private Name         $name,
+        private UserID       $ownerID,
+        private ?Description $description = null,
     )
     {
-    }
-
-    public function setDescription(Description $description): void
-    {
-        $this->description = $description;
     }
 
     public function getDescription(): ?Description

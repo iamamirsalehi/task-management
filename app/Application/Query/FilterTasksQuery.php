@@ -9,19 +9,14 @@ use App\Domain\Enum\TaskStatus;
 /**
  * @see FilterTasksQueryHandler
  * */
-final class FilterTasksQuery
+final readonly class FilterTasksQuery
 {
-    private ?TaskStatus $status = null;
-    private ?TaskPriority $priority = null;
-
-    public function setStatus(TaskStatus $status): void
+    public function __construct(
+        private ?TaskStatus   $status = null,
+        private ?TaskPriority $priority = null,
+    )
     {
-        $this->status = $status;
-    }
 
-    public function setPriority(TaskPriority $priority): void
-    {
-        $this->priority = $priority;
     }
 
     public function getStatus(): ?TaskStatus

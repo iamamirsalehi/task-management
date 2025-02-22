@@ -22,7 +22,7 @@ final readonly class AssignDeadlineToATaskCommandHandler
             throw TaskException::invalidID();
         }
 
-        $task->changeDeadline($command->deadline);
+        $task->changeDeadline($command->deadline, new \DateTimeImmutable('now'));
 
         $this->taskRepository->save($task);
     }

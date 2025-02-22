@@ -21,6 +21,20 @@ class FilterTasksRequest extends FormRequest
         ];
     }
 
+    public function getPriority(): ?TaskPriority
+    {
+        return $this->has('priority')
+            ? TaskPriority::from($this->get('priority'))
+            : null;
+    }
+
+    public function getStatus(): ?TaskStatus
+    {
+        return $this->has('status')
+            ? TaskStatus::from($this->get('status'))
+            : null;
+    }
+
     private function getPriorities(): string
     {
         return implode(',', TaskPriority::getValuesAsArray());

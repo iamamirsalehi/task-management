@@ -13,6 +13,5 @@ final readonly class CompleteATaskCommand
 {
     public function __construct(public ID $id, public UserID $userID)
     {
-
     }
 }

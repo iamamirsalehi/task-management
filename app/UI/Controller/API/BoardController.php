@@ -6,8 +6,6 @@ namespace App\UI\Controller\API;
 use App\Application\Command\AddNewBoardCommand;
 use App\Application\Query\GetAllUserBoardsQuery;
 use App\Application\Query\GetBoardTasksQuery;
-use App\Domain\Entity\Board\Description;
-use App\Domain\Entity\Board\Name;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Exception\BusinessException;
@@ -35,13 +33,10 @@ final readonly class BoardController
     {
         try {
             $addNewBoardCommand = new AddNewBoardCommand(
-                new Name($request->get('name')),
-                new UserID((int)$request->get('user_id')),
+                $request->getName(),
+                $request->getUserID(),
+                $request->getDescription(),
             );
-
-            if ($request->has('description')) {
-                $addNewBoardCommand->setDescription(new Description($request->get('description')));
-            }
 
             $this->commandBus->handle($addNewBoardCommand);
         } catch (BusinessException|InvalidArgumentException $exception) {

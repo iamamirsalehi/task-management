@@ -12,32 +12,23 @@ use App\Domain\Entity\Task\Title;
 /**
  * @see AddNewTaskCommandHandler
  * */
-final class AddNewTaskCommand
+final readonly class AddNewTaskCommand
 {
-    private ?Description $description = null;
-    private ?Deadline $deadline = null;
+
 
     public function __construct(
-        private readonly Title   $title,
-        private readonly BoardID $boardID,
-        private readonly UserID  $userID,
+        private Title        $title,
+        private BoardID      $boardID,
+        private UserID       $userID,
+        private ?Description $description = null,
+        private ?Deadline    $deadline = null,
     )
     {
-    }
-
-    public function setDescription(Description $description): void
-    {
-        $this->description = $description;
     }
 
     public function getDescription(): ?Description
     {
         return $this->description;
-    }
-
-    public function setDeadline(Deadline $deadline): void
-    {
-        $this->deadline = $deadline;
     }
 
     public function getDeadline(): ?Deadline

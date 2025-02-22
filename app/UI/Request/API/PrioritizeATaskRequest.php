@@ -19,6 +19,11 @@ class PrioritizeATaskRequest extends FormRequest
         ];
     }
 
+    public function getPriority(): TaskPriority
+    {
+        return TaskPriority::from($this->get('priority'));
+    }
+
     private function getPriorityAsString(): string
     {
         return implode(',', TaskPriority::getValuesAsArray());

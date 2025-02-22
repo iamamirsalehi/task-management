@@ -2,12 +2,14 @@
 
 namespace App\UI\Resource\API;
 
+use App\Domain\Entity\Task\Task;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskResource extends JsonResource
 {
     public function toArray($request): array
     {
+        /** @var Task $this */
         return [
             'id' => (string)$this->getId(),
             'title' => (string)$this->getTitle(),
