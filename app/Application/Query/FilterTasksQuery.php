@@ -2,9 +2,13 @@
 
 namespace App\Application\Query;
 
+use App\Application\QueryHandler\FilterTasksQueryHandler;
 use App\Domain\Enum\TaskPriority;
 use App\Domain\Enum\TaskStatus;
 
+/**
+ * @see FilterTasksQueryHandler
+ * */
 final class FilterTasksQuery
 {
     private ?TaskStatus $status = null;

@@ -2,10 +2,14 @@
 
 namespace App\Application\Command;
 
+use App\Application\CommandHandler\AddNewBoardCommandHandler;
 use App\Domain\Entity\Board\Description;
 use App\Domain\Entity\Board\Name;
 use App\Domain\Entity\User\ID as UserID;
 
+/**
+ * @see AddNewBoardCommandHandler
+ * */
 final class AddNewBoardCommand
 {
     private ?Description $description = null;

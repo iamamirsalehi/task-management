@@ -2,12 +2,16 @@
 
 namespace App\Application\Command;
 
+use App\Application\CommandHandler\AddNewTaskCommandHandler;
 use App\Domain\Entity\Board\ID as BoardID;
 use App\Domain\Entity\User\ID as UserID;
 use App\Domain\Entity\Task\Deadline;
 use App\Domain\Entity\Task\Description;
 use App\Domain\Entity\Task\Title;
 
+/**
+ * @see AddNewTaskCommandHandler
+ * */
 final class AddNewTaskCommand
 {
     private ?Description $description = null;
