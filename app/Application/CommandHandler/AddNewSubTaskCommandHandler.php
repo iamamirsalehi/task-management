@@ -31,7 +31,7 @@ final readonly class AddNewSubTaskCommandHandler
             throw TaskException::canNotHaveSubTask();
         }
 
-        $subTask = new SubTask($command->title, $command->description, $task->getId());
+        $subTask = new SubTask($command->title, $task->getId(), $command->description);
 
         $this->subTaskRepository->save($subTask);
     }

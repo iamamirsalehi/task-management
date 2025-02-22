@@ -20,8 +20,8 @@ final class SubTask
     #[ORM\Column(name: 'title', type: 'subtask_title', length: 100)]
     private Title $title;
 
-    #[ORM\Column(name: 'description', type: 'subtask_description', length: 500)]
-    private Description $description;
+    #[ORM\Column(name: 'description', type: 'subtask_description', length: 500, nullable: true)]
+    private ?Description $description = null;
 
     #[ORM\Column(name: 'status', type: 'subtask_status')]
     private SubTaskStatus $status;
@@ -30,13 +30,13 @@ final class SubTask
     private TaskID $parentID;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
-    private \DateTime $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    private \DateTime $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
 
-    public function __construct(Title $title, Description $description, TaskID $parentID)
+    public function __construct(Title $title, TaskID $parentID, ?Description $description = null)
     {
         $this->title = $title;
         $this->description = $description;
@@ -54,7 +54,7 @@ final class SubTask
         return $this->title;
     }
 
-    public function getDescription(): Description
+    public function getDescription(): ?Description
     {
         return $this->description;
     }
@@ -69,12 +69,12 @@ final class SubTask
         return $this->parentID;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -82,7 +82,7 @@ final class SubTask
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -90,7 +90,7 @@ final class SubTask
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $now = new \DateTime('now');
+        $now = new \DateTimeImmutable('now');
         $this->updatedAt = $now;
     }
 

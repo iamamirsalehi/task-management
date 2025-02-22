@@ -8,17 +8,13 @@ use App\Application\Command\RemoveSubTaskCommand;
 use App\Application\Command\ReopenSubTaskCommand;
 use App\Application\Command\StartSubTaskCommand;
 use App\Application\Query\GetTaskSubTasksQuery;
-use App\Domain\Entity\SubTask\Description;
 use App\Domain\Entity\Task\ID;
 use App\Domain\Entity\SubTask\ID as SubTaskID;
-use App\Domain\Entity\User\ID as UserID;
-use App\Domain\Entity\SubTask\Title;
 use App\Domain\Exception\BusinessException;
 use App\Infrastructure\CommandBus\CommandBus;
 use App\Infrastructure\QueryBus\QueryBus;
 use App\UI\Request\API\AddNewSubTaskRequest;
 use App\UI\Resource\API\SubTaskResource;
-use App\UI\Resource\API\TaskResource;
 use App\UI\Response\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -36,10 +32,9 @@ final readonly class SubTaskController
     {
         try {
             $this->commandBus->handle(new AddNewSubTaskCommand(
-                new Title($request->get('title')),
-                new Description($request->get('description')),
-                new ID($request->get('task_id')),
-                new UserID($request->get('user_id')),
+                $request->getTitle(),
+                $request->getTaskID(),
+                $request->getDescription(),
             ));
         } catch (BusinessException $exception) {
             return JsonResponse::unprocessableEntity($exception->getMessage());
