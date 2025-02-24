@@ -3,18 +3,20 @@
 namespace App\Application\CommandHandler;
 
 use App\Application\Command\ReopenSubTaskCommand;
+use App\Domain\Event\SubTaskReopenedEvent;
 use App\Domain\Exception\SubTaskException;
 use App\Domain\Exception\TaskException;
 use App\Domain\Persistence\Repository\SubTaskRepository;
 use App\Domain\Persistence\Repository\TaskRepository;
 use App\Domain\Persistence\Repository\Transaction;
+use Illuminate\Contracts\Events\Dispatcher;
 
 final readonly class ReopenSubTaskCommandHandler
 {
     public function __construct(
         private SubTaskRepository $subTaskRepository,
         private TaskRepository    $taskRepository,
-        private Transaction       $transaction,
+        private Dispatcher        $dispatcher,
     )
     {
     }
@@ -37,14 +39,8 @@ final readonly class ReopenSubTaskCommandHandler
 
         $subTask->reopen();
 
-        if ($task->isCompleted()) {
-            $task->toInProgress();
-        }
+        $this->subTaskRepository->save($subTask);
 
-        $this->transaction->warp(function () use ($subTask, $task) {
-            $this->taskRepository->save($task);
-
-            $this->subTaskRepository->save($subTask);
-        });
+        $this->dispatcher->dispatch(new SubTaskReopenedEvent($task));
     }
 }
